@@ -19,7 +19,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class DecryptTest {
+public class Decrypt {
     private static final String aTweak = "1867687968866456789";
     private static final char[] specialCharacters = {'@', '(', ')', ' ', '.', '*', '+', '-', '#', '[', ']', '|', '{', '}', ',', '/', '"', '"', ';', ':', '$', '%'};
     private static SecretKey secretKey;
@@ -146,8 +146,10 @@ public class DecryptTest {
 
         if (isTimestamp(inputToDecrypt)) {
             plain.append(formatPreservingEncryption.decrypt(inputToDecrypt, aTweak.getBytes()));
-
-        }
+            String plainText = plain.toString();
+            System.out.println("Input: " + inputToDecrypt);
+            System.out.println("Decrypted Text: " + getStringFromUnixTimeStamp(plainText));
+        } 
         else {
             if (containsSpecialCharacters(inputToDecrypt)) {
                 LinkedHashMap<Integer, Character> specialCharactersIndexesMap = new LinkedHashMap<>();
@@ -176,20 +178,14 @@ public class DecryptTest {
             } else {
                 plain.append(formatPreservingEncryption.decrypt(inputToDecrypt, aTweak.getBytes()));
             }
-        }
 
-        String plainText = plain.toString();
-        if (isTimestamp(inputToDecrypt)) {
-            System.out.println("Decrypted Text: " + getStringFromUnixTimeStamp(plainText));
-
-        }
-
-        else {
-//        System.out.println("unixTimeStampHours " + plainText);
+            String plainText1 = plain.toString();
+//          System.out.println("unixTimeStampHours " + plainText);
             System.out.println("Input: " + inputToDecrypt);
-//        long unixTimeStampMilliSeconds = Long.parseLong(plainText) *3600 *1000;
-            System.out.println("Decrypted Text: " + (plainText));
+//          long unixTimeStampMilliSeconds = Long.parseLong(plainText) *3600 *1000;
+            System.out.println("Decrypted Text: " + plainText1);
         }
+
     }
 
     public static String getStringFromUnixTimeStamp(String input) throws ParseException {
